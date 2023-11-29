@@ -1,0 +1,9 @@
+# Setting for bot
+.env
+
+# Pycache IDE
+.idea
+*__pycache__/
+
+# Database
+*.db
