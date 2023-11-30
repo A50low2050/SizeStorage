@@ -15,7 +15,7 @@ async def admin_profile(call: CallbackQuery):
 
 @router.callback_query(F.data == "manage_model")
 async def models_tools(call: CallbackQuery):
-    await call.message.answer("What do you doing", reply_markup=model_keyboard_tools())
+    await call.message.edit_text("What do you doing", reply_markup=model_keyboard_tools())
     await call.answer()
 
 

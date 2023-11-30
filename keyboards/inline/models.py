@@ -15,7 +15,7 @@ def model_keyboard_tools():
     return keyboard_builder.as_markup()
 
 
-def back_to_models():
+async def back_to_models_keyboard():
     keyboard_builder = InlineKeyboardBuilder()
     keyboard_builder.button(text='Back', callback_data='back_models')
     keyboard_builder.adjust(1)
