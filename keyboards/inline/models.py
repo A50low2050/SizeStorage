@@ -22,6 +22,15 @@ async def back_to_models_keyboard():
     return keyboard_builder.as_markup()
 
 
+def cancel_state_model():
+    keyboard_builder = InlineKeyboardBuilder()
+    keyboard_builder.button(text="Cancel", callback_data="cancel_state_model")
+    keyboard_builder.button(text="Back", callback_data="back_state_model")
+    keyboard_builder.adjust(2)
+
+    return keyboard_builder.as_markup()
+
+
 async def models_show_all():
     keyboard_builder = InlineKeyboardBuilder()
     models = await select_all_models()

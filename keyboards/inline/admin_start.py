@@ -12,7 +12,7 @@ def admin_keyboard():
 def admin_panel_keyboard():
     keyboard_builder = InlineKeyboardBuilder()
     keyboard_builder.button(text="Models", callback_data="manage_model")
-    keyboard_builder.button(text="Objects", callback_data="objects")
+    keyboard_builder.button(text="Objects", callback_data="manage_object")
 
     keyboard_builder.adjust(2)
     return keyboard_builder.as_markup()

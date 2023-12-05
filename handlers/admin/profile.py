@@ -19,9 +19,9 @@ async def models_tools(call: CallbackQuery):
     await call.answer()
 
 
-@router.callback_query(F.data == "objects")
+@router.callback_query(F.data == "manage_object")
 async def objects_tools(call: CallbackQuery):
-    await call.message.edit_text("What do you doing", reply_markup=objects_keyboard_tools())
+    await call.message.edit_text("Welcome to manage object", reply_markup=objects_keyboard_tools())
     await call.answer()
 
 

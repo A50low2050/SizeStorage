@@ -17,6 +17,17 @@ async def create_db():
     
         )"""
     )
+
+    cursor.execute(
+        """CREATE TABLE IF NOT EXISTS objects(
+        id INTEGER primary key AUTOINCREMENT,
+        name TEXT,
+        description TEXT,
+        photo_id TEXT,
+        link_file TEXT
+
+        )"""
+    )
     db.commit()
 
 
@@ -45,3 +56,15 @@ async def select_model_db(unique_id):
     response = cursor.fetchall()
     return response
 
+
+async def add_data_object(name, description, photo_id, link_file):
+    cursor.execute(
+        """INSERT INTO objects(name, description, photo_id, link_file)
+         VALUES(?, ?, ?, ?)""", (
+            name,
+            description,
+            photo_id,
+            link_file,
+        )
+    )
+    db.commit()
