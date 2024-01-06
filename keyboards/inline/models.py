@@ -36,7 +36,10 @@ async def models_show_all():
     models = await select_all_models()
 
     for model in models:
-        keyboard_builder.button(text=str(model[1]), callback_data=ModelInfo(name=model[1], unique_id=model[0]))
+        keyboard_builder.button(text=model['name'], callback_data=ModelInfo(
+            name=model['name'],
+            unique_id=model['id'],
+        ))
     keyboard_builder.button(text='Back', callback_data='back_manage')
     keyboard_builder.adjust(1)
     return keyboard_builder.as_markup()
@@ -44,4 +47,4 @@ async def models_show_all():
 
 async def get_model(unique_id):
     model = await select_model_db(unique_id)
-    return model[0]
+    return model

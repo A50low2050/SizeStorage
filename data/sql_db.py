@@ -1,3 +1,4 @@
+import sqlite3
 import sqlite3 as sq
 
 
@@ -45,15 +46,18 @@ async def add_data_model(name, description, photo_id, link_file):
 
 
 async def select_all_models():
-    cursor.execute(""" SELECT * FROM models """)
-    response = cursor.fetchall()
-
+    db.row_factory = sqlite3.Row
+    cur = db.cursor()
+    cur.execute(""" SELECT * FROM models """)
+    response = cur.fetchall()
     return response
 
 
 async def select_model_db(unique_id):
-    cursor.execute(f""" SELECT * FROM models WHERE id=?""", (unique_id,))
-    response = cursor.fetchall()
+    db.row_factory = sqlite3.Row
+    cur = db.cursor()
+    cur.execute(f""" SELECT * FROM models WHERE id=?""", (unique_id,))
+    response = cur.fetchone()
     return response
 
 
