@@ -15,7 +15,7 @@ async def create_db():
         description TEXT,
         photo_id TEXT,
         link_file TEXT
-    
+
         )"""
     )
 

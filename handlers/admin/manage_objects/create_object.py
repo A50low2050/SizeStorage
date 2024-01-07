@@ -4,7 +4,7 @@ from aiogram.types import CallbackQuery, Message
 from keyboards.inline.objects import objects_keyboard_tools, cancel_state_object
 from services.states import ObjectAdd
 from app import bot
-from data.sql_db import add_data_object
+from data.sql.commands import add_data_object
 
 router = Router()
 
