@@ -7,7 +7,9 @@ from data.postgres.commands import (
     select_model,
     delete_model,
     update_model_name,
-
+    update_model_description,
+    update_model_photo_id,
+    update_model_link,
 )
 
 
@@ -71,6 +73,31 @@ async def db_test_update_model_name(model_id, new_name):
     model = await update_model_name(model_id, new_name)
     print(model)
     await db.pop_bind().close()
+
+
+async def db_test_update_model_description(model_id, new_description):
+    await start_test()
+    await connect_postgres()
+    model = await update_model_description(model_id, new_description)
+    print(model)
+    await db.pop_bind().close()
+
+
+async def db_test_update_model_photo_id(model_id, photo_id):
+    await start_test()
+    await connect_postgres()
+    model = await update_model_photo_id(model_id, photo_id)
+    print(model)
+    await db.pop_bind().close()
+
+
+async def db_test_update_model_link_file(model_id, new_link):
+    await start_test()
+    await connect_postgres()
+    model = await update_model_link(model_id, new_link)
+    print(model)
+    await db.pop_bind().close()
+
 
 loop = asyncio.new_event_loop()
 asyncio.set_event_loop(loop)

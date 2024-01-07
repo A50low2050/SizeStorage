@@ -32,7 +32,25 @@ async def select_model(model_id):
 async def update_model_name(model_id, new_name):
     model = await select_model(model_id)
     await model.update(name=new_name).apply()
-    return f'Update model is success'
+    return f'Update name model is success'
+
+
+async def update_model_description(model_id, new_description):
+    model = await select_model(model_id)
+    await model.update(description=new_description).apply()
+    return f'Update description model is success'
+
+
+async def update_model_photo_id(model_id, photo_id):
+    model = await select_model(model_id)
+    await model.update(photo_id=photo_id).apply()
+    return f'Update photo_id model is success'
+
+
+async def update_model_link(model_id, new_link):
+    model = await select_model(model_id)
+    await model.update(link_file=new_link).apply()
+    return f'Update link file model is success'
 
 
 async def delete_model(model_id):
