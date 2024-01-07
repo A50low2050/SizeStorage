@@ -3,7 +3,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 from app import bot
 from services.states import ModelAdd
-from data.sql_db import add_data_model
+from data.sql.commands import add_data_model
 from keyboards.inline.models import model_keyboard_tools, cancel_state_model
 
 router = Router()

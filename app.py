@@ -1,7 +1,7 @@
 import asyncio
 from aiogram import Bot, Dispatcher
 from middlewares.settings import config
-from data.sql_db import create_db
+from data.sql.commands import create_db
 from utils.commands import set_commands
 
 bot = Bot(token=config.bots.bot_token, parse_mode="HTML")
