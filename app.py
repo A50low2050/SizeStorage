@@ -14,7 +14,11 @@ async def launch_bot():
 
     from handlers.admin import admin_start
     from handlers.admin import profile
-    from handlers.admin.manage_model import create_model, show_model
+    from handlers.admin.manage_model import (
+        create_model,
+        show_model,
+        delete_model,
+    )
     from handlers.admin.manage_objects import create_object
 
     from handlers.users import user_start
@@ -26,6 +30,7 @@ async def launch_bot():
 
         create_model.router,
         show_model.router,
+        delete_model.router,
 
         create_object.router
 

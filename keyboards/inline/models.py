@@ -31,12 +31,13 @@ def cancel_state_model():
     return keyboard_builder.as_markup()
 
 
-async def models_show_all():
+async def models_show_all(type_handler):
     keyboard_builder = InlineKeyboardBuilder()
     models = await select_all_models()
 
     for model in models:
         keyboard_builder.button(text=model['name'], callback_data=ModelInfo(
+            type_handler=type_handler,
             name=model['name'],
             unique_id=model['id'],
         ))
