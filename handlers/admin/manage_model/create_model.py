@@ -5,6 +5,7 @@ from app import bot
 from services.states import ModelAdd
 from data.sql.commands import add_data_model
 from keyboards.inline.models import model_keyboard_tools, cancel_state_model
+from filters.is_files import FileCheck
 
 router = Router()
 
@@ -49,7 +50,7 @@ async def get_photo_model(msg: Message, state: FSMContext):
         await msg.answer('Please, download photo!')
 
 
-@router.message(ModelAdd.get_link_file)
+@router.message(FileCheck(), ModelAdd.get_link_file)
 async def get_link_file_model(msg: Message, state: FSMContext):
     await state.update_data(get_link_file=msg.text)
     context_data = await state.get_data()
