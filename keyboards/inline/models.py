@@ -5,11 +5,11 @@ from data.sql.commands import select_all_models, select_model_db
 
 def model_keyboard_tools():
     keyboard_builder = InlineKeyboardBuilder()
-    keyboard_builder.button(text="Add", callback_data="add_model")
-    keyboard_builder.button(text="Update", callback_data="update_model")
-    keyboard_builder.button(text="Delete", callback_data="delete_model")
-    keyboard_builder.button(text="Show", callback_data="show_model")
-    keyboard_builder.button(text="Back", callback_data="back_profile")
+    keyboard_builder.button(text="Add ✍", callback_data="add_model")
+    keyboard_builder.button(text="Update 🔄", callback_data="update_model")
+    keyboard_builder.button(text="Delete 🗑️", callback_data="delete_model")
+    keyboard_builder.button(text="Show 🔎", callback_data="show_model")
+    keyboard_builder.button(text="⬅", callback_data="back_profile")
 
     keyboard_builder.adjust(4)
     return keyboard_builder.as_markup()
@@ -17,15 +17,15 @@ def model_keyboard_tools():
 
 async def back_to_models_keyboard():
     keyboard_builder = InlineKeyboardBuilder()
-    keyboard_builder.button(text='Back', callback_data='back_models')
+    keyboard_builder.button(text='⬅', callback_data='back_models')
     keyboard_builder.adjust(1)
     return keyboard_builder.as_markup()
 
 
 def cancel_state_model():
     keyboard_builder = InlineKeyboardBuilder()
-    keyboard_builder.button(text="Cancel", callback_data="cancel_state_model")
-    keyboard_builder.button(text="Back", callback_data="back_state_model")
+    keyboard_builder.button(text="❌", callback_data="cancel_state_model")
+    keyboard_builder.button(text="⬅", callback_data="back_state_model")
     keyboard_builder.adjust(2)
 
     return keyboard_builder.as_markup()
@@ -41,7 +41,7 @@ async def models_show_all(type_handler):
             name=model['name'],
             unique_id=model['id'],
         ))
-    keyboard_builder.button(text='Back', callback_data='back_manage')
+    keyboard_builder.button(text='⬅', callback_data='back_manage')
     keyboard_builder.adjust(1)
     return keyboard_builder.as_markup()
 

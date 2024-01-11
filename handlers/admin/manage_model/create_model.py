@@ -12,7 +12,7 @@ router = Router()
 
 @router.callback_query(F.data == "add_model")
 async def model_add(call: CallbackQuery, state: FSMContext):
-    await call.message.edit_text("Start create a new model.\n"
+    await call.message.edit_text("Start create a new model.\n\n"
                                  "Come up with a new model name",
                                  reply_markup=cancel_state_model())
 
@@ -21,7 +21,7 @@ async def model_add(call: CallbackQuery, state: FSMContext):
 
 @router.message(ModelAdd.get_name)
 async def get_name_model(msg: Message, state: FSMContext):
-    await msg.answer(f"Model name is \r\n{msg.text}\r\n"
+    await msg.answer(f"Model name is {msg.text}\n\n"
                      "Now add description for model",
                      reply_markup=cancel_state_model())
     await state.update_data(get_name=msg.text)
@@ -30,7 +30,7 @@ async def get_name_model(msg: Message, state: FSMContext):
 
 @router.message(ModelAdd.get_description)
 async def get_description_model(msg: Message, state: FSMContext):
-    await msg.answer(f"Description of model is \r\n{msg.text}\r\n"
+    await msg.answer(f"Description of model is {msg.text}\n\n"
                      "Now add photo for model",
                      reply_markup=cancel_state_model())
     await state.update_data(get_description=msg.text)
