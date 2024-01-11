@@ -18,6 +18,7 @@ async def launch_bot():
         create_model,
         show_model,
         delete_model,
+        update_model,
     )
     from handlers.admin.manage_objects import create_object
 
@@ -31,6 +32,7 @@ async def launch_bot():
         create_model.router,
         show_model.router,
         delete_model.router,
+        update_model.router,
 
         create_object.router
 

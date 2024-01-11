@@ -49,3 +49,11 @@ async def models_show_all(type_handler):
 async def get_model(unique_id):
     model = await select_model_db(unique_id)
     return model
+
+
+def update_model_keyboard():
+    keyboard_builder = InlineKeyboardBuilder()
+    keyboard_builder.button(text='update name', callback_data='update_name')
+    keyboard_builder.button(text='update description', callback_data='update_description')
+    keyboard_builder.adjust(1)
+    return keyboard_builder.as_markup()
