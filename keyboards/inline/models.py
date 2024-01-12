@@ -22,10 +22,10 @@ async def back_to_models_keyboard():
     return keyboard_builder.as_markup()
 
 
-def cancel_state_model():
+def cancel_state_model(type_state):
     keyboard_builder = InlineKeyboardBuilder()
     keyboard_builder.button(text="❌", callback_data="cancel_state_model")
-    keyboard_builder.button(text="⬅", callback_data="back_state_model")
+    keyboard_builder.button(text="⬅", callback_data=f"back_{type_state}")
     keyboard_builder.adjust(2)
 
     return keyboard_builder.as_markup()

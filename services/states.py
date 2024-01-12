@@ -9,6 +9,7 @@ class ModelAdd(StatesGroup):
 
 
 class ModelUpdate(StatesGroup):
+    unique_id = State()
     get_name = State()
 
 

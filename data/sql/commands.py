@@ -67,6 +67,12 @@ async def delete_model_db(unique_id, name):
     return f'Success delete model with name {name}'
 
 
+async def update_name_model_db(unique_id, new_name):
+    cursor.execute(f""" UPDATE models SET name='{new_name}' WHERE id={unique_id}""")
+    db.commit()
+    return f'Success update name model'
+
+
 async def add_data_object(name, description, photo_id, link_file):
     cursor.execute(
         """INSERT INTO objects(name, description, photo_id, link_file)
