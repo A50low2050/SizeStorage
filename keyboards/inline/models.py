@@ -55,5 +55,8 @@ def update_model_keyboard():
     keyboard_builder = InlineKeyboardBuilder()
     keyboard_builder.button(text='update name', callback_data='update_name')
     keyboard_builder.button(text='update description', callback_data='update_description')
+    keyboard_builder.button(text='update photo', callback_data='update_photo')
+    keyboard_builder.button(text='update file link', callback_data='update_file_link')
+    keyboard_builder.button(text='⬅', callback_data='back_manage')
     keyboard_builder.adjust(1)
     return keyboard_builder.as_markup()

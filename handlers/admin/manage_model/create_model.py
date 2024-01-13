@@ -52,7 +52,7 @@ async def get_photo_model(msg: Message, state: FSMContext):
         await msg.answer('Please, download photo!')
 
 
-@router.message(FileCheck(), ModelAdd.get_link_file)
+@router.message(ModelAdd.get_link_file)
 async def get_link_file_model(msg: Message, state: FSMContext):
     await state.update_data(get_link_file=msg.text)
     context_data = await state.get_data()
@@ -92,20 +92,24 @@ async def back_state_model(call: CallbackQuery, state: FSMContext):
         await state.clear()
         await call.message.edit_text("Back to manage model",
                                      reply_markup=model_keyboard_tools())
+        await call.answer()
     if current_state == f"{name_state}:get_description":
         await state.set_state(ModelAdd.get_name)
         data = await state.get_data()
         await call.message.edit_text(f"Edit name {data['get_name']}",
                                      reply_markup=cancel_state_model(TYPE_STATE))
+        await call.answer()
     if current_state == f"{name_state}:get_photo":
         await state.set_state(ModelAdd.get_description)
         data = await state.get_data()
         await call.message.edit_text(f"Edit description {data['get_description']}",
                                      reply_markup=cancel_state_model(TYPE_STATE))
+        await call.answer()
     if current_state == f"{name_state}:get_link_file":
         await state.set_state(ModelAdd.get_photo)
         data = await state.get_data()
         await call.message.edit_text(f"Edit old photo with id: {data['get_photo']}",
                                      reply_markup=cancel_state_model(TYPE_STATE))
+        await call.answer()
     else:
         return
