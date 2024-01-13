@@ -5,7 +5,6 @@ from app import bot
 from services.states import ModelAdd
 from data.sql.commands import add_data_model
 from keyboards.inline.models import model_keyboard_tools, cancel_state_model
-from filters.is_files import FileCheck
 
 router = Router()
 
