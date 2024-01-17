@@ -22,10 +22,10 @@ async def back_to_models_keyboard():
     return keyboard_builder.as_markup()
 
 
-def cancel_state_model():
+def cancel_state_model(type_state):
     keyboard_builder = InlineKeyboardBuilder()
     keyboard_builder.button(text="❌", callback_data="cancel_state_model")
-    keyboard_builder.button(text="⬅", callback_data="back_state_model")
+    keyboard_builder.button(text="⬅", callback_data=f"back_{type_state}")
     keyboard_builder.adjust(2)
 
     return keyboard_builder.as_markup()
@@ -49,3 +49,14 @@ async def models_show_all(type_handler):
 async def get_model(unique_id):
     model = await select_model_db(unique_id)
     return model
+
+
+def update_model_keyboard():
+    keyboard_builder = InlineKeyboardBuilder()
+    keyboard_builder.button(text='update name ✏', callback_data='update_name')
+    keyboard_builder.button(text='update description 📚', callback_data='update_description')
+    keyboard_builder.button(text='update photo 📸', callback_data='update_photo')
+    keyboard_builder.button(text='update file link 📄', callback_data='update_file_link')
+    keyboard_builder.button(text='⬅', callback_data='back_manage')
+    keyboard_builder.adjust(2)
+    return keyboard_builder.as_markup()

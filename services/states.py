@@ -8,6 +8,14 @@ class ModelAdd(StatesGroup):
     get_link_file = State()
 
 
+class ModelUpdate(StatesGroup):
+    unique_id = State()
+    get_name = State()
+    get_description = State()
+    get_photo_id = State()
+    get_file_link = State()
+
+
 class ObjectAdd(StatesGroup):
     get_name = State()
     get_description = State()
