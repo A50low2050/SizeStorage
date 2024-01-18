@@ -14,21 +14,20 @@ router = Router()
 
 @router.callback_query(F.data == 'show_model')
 async def show_models(call: CallbackQuery):
-    markup = await models_show_all()
+    markup = await models_show_all(type_handler='show_model')
     await call.message.edit_text('Your models', reply_markup=markup)
 
 
-@router.callback_query(ModelInfo.filter())
+@router.callback_query(ModelInfo.filter(F.type_handler == 'show_model'))
 async def show_model(call: CallbackQuery, callback_data: ModelInfo):
     unique_id = callback_data.unique_id
     data = await get_model(unique_id)
     markup = await back_to_models_keyboard()
-
     await bot.send_photo(chat_id=call.message.chat.id,
-                         photo=data[3],
-                         caption=f"Name: {data[1]}\n"
-                                 f"Description: {data[2]}\n"
-                                 f"Link: {data[4]}",
+                         photo=data['photo_id'],
+                         caption=f"Name: {data['name']}\n"
+                                 f"Description: {data['description']}\n"
+                                 f"Link: {data['link_file']}",
                          reply_markup=markup)
     await call.answer()
 
@@ -40,7 +39,6 @@ async def back_category(call: CallbackQuery):
 
 @router.callback_query(F.data == 'back_models')
 async def back_to_models(call: CallbackQuery):
-    markup = await models_show_all()
-    await call.message.delete()
+    markup = await models_show_all(type_handler='show_model')
     await call.message.answer('Back to models', reply_markup=markup)
     await call.answer()

@@ -1,15 +1,15 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from utils.callbackdata import ModelInfo
-from data.sql_db import select_all_models, select_model_db
+from data.sql.commands import select_all_models, select_model_db
 
 
 def model_keyboard_tools():
     keyboard_builder = InlineKeyboardBuilder()
-    keyboard_builder.button(text="Add", callback_data="add_model")
-    keyboard_builder.button(text="Update", callback_data="update_model")
-    keyboard_builder.button(text="Delete", callback_data="delete_model")
-    keyboard_builder.button(text="Show", callback_data="show_model")
-    keyboard_builder.button(text="Back", callback_data="back_profile")
+    keyboard_builder.button(text="Add ✍", callback_data="add_model")
+    keyboard_builder.button(text="Update 🔄", callback_data="update_model")
+    keyboard_builder.button(text="Delete 🗑️", callback_data="delete_model")
+    keyboard_builder.button(text="Show 🔎", callback_data="show_model")
+    keyboard_builder.button(text="⬅", callback_data="back_profile")
 
     keyboard_builder.adjust(4)
     return keyboard_builder.as_markup()
@@ -17,31 +17,46 @@ def model_keyboard_tools():
 
 async def back_to_models_keyboard():
     keyboard_builder = InlineKeyboardBuilder()
-    keyboard_builder.button(text='Back', callback_data='back_models')
+    keyboard_builder.button(text='⬅', callback_data='back_models')
     keyboard_builder.adjust(1)
     return keyboard_builder.as_markup()
 
 
-def cancel_state_model():
+def cancel_state_model(type_state):
     keyboard_builder = InlineKeyboardBuilder()
-    keyboard_builder.button(text="Cancel", callback_data="cancel_state_model")
-    keyboard_builder.button(text="Back", callback_data="back_state_model")
+    keyboard_builder.button(text="❌", callback_data="cancel_state_model")
+    keyboard_builder.button(text="⬅", callback_data=f"back_{type_state}")
     keyboard_builder.adjust(2)
 
     return keyboard_builder.as_markup()
 
 
-async def models_show_all():
+async def models_show_all(type_handler):
     keyboard_builder = InlineKeyboardBuilder()
     models = await select_all_models()
 
     for model in models:
-        keyboard_builder.button(text=str(model[1]), callback_data=ModelInfo(name=model[1], unique_id=model[0]))
-    keyboard_builder.button(text='Back', callback_data='back_manage')
+        keyboard_builder.button(text=model['name'], callback_data=ModelInfo(
+            type_handler=type_handler,
+            name=model['name'],
+            unique_id=model['id'],
+        ))
+    keyboard_builder.button(text='⬅', callback_data='back_manage')
     keyboard_builder.adjust(1)
     return keyboard_builder.as_markup()
 
 
 async def get_model(unique_id):
     model = await select_model_db(unique_id)
-    return model[0]
+    return model
+
+
+def update_model_keyboard():
+    keyboard_builder = InlineKeyboardBuilder()
+    keyboard_builder.button(text='update name ✏', callback_data='update_name')
+    keyboard_builder.button(text='update description 📚', callback_data='update_description')
+    keyboard_builder.button(text='update photo 📸', callback_data='update_photo')
+    keyboard_builder.button(text='update file link 📄', callback_data='update_file_link')
+    keyboard_builder.button(text='⬅', callback_data='back_manage')
+    keyboard_builder.adjust(2)
+    return keyboard_builder.as_markup()
