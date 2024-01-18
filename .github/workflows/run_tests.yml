@@ -1,9 +1,8 @@
 name: Automated tests
 
 on:
-  status:
-    push:
-      - "tests/**"
+  push:
+    - "tests/**"
 
 jobs:
   test:
