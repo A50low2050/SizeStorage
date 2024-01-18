@@ -2,8 +2,6 @@ name: Automated tests
 
 on:
   push:
-    paths:
-      - "tests/**"
 
 jobs:
   test:
