@@ -30,5 +30,6 @@ jobs:
       - name: test_welcome_admin
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          ADMIN_ID: ${{ secrets.ADMIN_ID}}
         if: "github.event.inputs.deployment_target == 'first_test'"
         run: pytest tests/test_handlers/test_welcome_admin.py::test_welcome_admin
