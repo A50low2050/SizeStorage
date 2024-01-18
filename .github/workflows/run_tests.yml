@@ -28,5 +28,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: test_welcome_admin
+        env:
+          bot_token: 6604747356:AAGOg7npHpV0RcP1RMl_58tsorFJCX3vfxQ
         if: "github.event.inputs.deployment_target == 'first_test'"
         run: pytest tests/test_handlers/test_welcome_admin.py::test_welcome_admin
