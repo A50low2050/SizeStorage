@@ -5,11 +5,11 @@ on:
     inputs:
       deployment_target:
         description: Choose target
-        required: True
-        default:
+        required: true
+        default: first_test
         type: choice
         options:
-          - test_welcome_admin
+          - first_test
 
 jobs:
   test:
@@ -25,5 +25,5 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
       - name: test_welcome_admin
-        if: "github.event.inputs.deployment_target == 'test_welcome_admin'"
+        if: "github.event.inputs.deployment_target == 'first_test'"
         run: pytest tests\test_handlers\test_welcome_admin.py
