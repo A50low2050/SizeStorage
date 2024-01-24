@@ -10,7 +10,7 @@ router = Router()
 
 
 @router.callback_query(F.data == 'add_object')
-async def start_object(call: CallbackQuery, state: FSMContext):
+async def start_object(call: CallbackQuery, state: FSMContext) -> None:
     await call.message.edit_text("Start create a new object.\n"
                                  "Come up with a new object name",
                                  reply_markup=cancel_state_object()
@@ -20,7 +20,7 @@ async def start_object(call: CallbackQuery, state: FSMContext):
 
 
 @router.message(ObjectAdd.get_name)
-async def get_name_object(msg: Message, state: FSMContext):
+async def get_name_object(msg: Message, state: FSMContext) -> None:
     await msg.answer(f"Object name is \r\n{msg.text}\r\n"
                      "Now add description for object", reply_markup=cancel_state_object())
     await state.update_data(get_name=msg.text)
@@ -28,7 +28,7 @@ async def get_name_object(msg: Message, state: FSMContext):
 
 
 @router.message(ObjectAdd.get_description)
-async def get_description_object(msg: Message, state: FSMContext):
+async def get_description_object(msg: Message, state: FSMContext) -> None:
     await msg.answer(f"Description of object is \r\n{msg.text}\r\n"
                      "Now add photo for object", reply_markup=cancel_state_object())
     await state.update_data(get_description=msg.text)
@@ -36,7 +36,7 @@ async def get_description_object(msg: Message, state: FSMContext):
 
 
 @router.message(ObjectAdd.get_photo)
-async def get_photo_object(msg: Message, state: FSMContext):
+async def get_photo_object(msg: Message, state: FSMContext) -> None:
     try:
         photo = await bot.get_file(msg.photo[-1].file_id)
         await msg.answer(f"Photo is a success save.\n\n"
@@ -49,7 +49,7 @@ async def get_photo_object(msg: Message, state: FSMContext):
 
 
 @router.message(ObjectAdd.get_link_file)
-async def get_link_file_object(msg: Message, state: FSMContext):
+async def get_link_file_object(msg: Message, state: FSMContext) -> None:
     await state.update_data(get_link_file=msg.text)
     context_data = await state.get_data()
 
@@ -71,14 +71,14 @@ async def get_link_file_object(msg: Message, state: FSMContext):
 
 
 @router.callback_query(F.data == "cancel_state_object")
-async def cancel_state(call: CallbackQuery, state: FSMContext):
+async def cancel_state(call: CallbackQuery, state: FSMContext) -> None:
     await state.clear()
     await call.message.edit_text("Cancel operation.\n"
                                  "You back in manage object", reply_markup=objects_keyboard_tools())
 
 
 @router.callback_query(F.data == "back_state_object")
-async def back_state_object(call: CallbackQuery, state: FSMContext):
+async def back_state_object(call: CallbackQuery, state: FSMContext) -> None:
     name_state = "ObjectAdd"
     current_state = await state.get_state()
     if current_state == f"{name_state}:get_name":

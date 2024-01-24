@@ -24,37 +24,37 @@ TYPE_STATE = 'ModelUpdateState'
 
 
 @router.callback_query(F.data == 'update_model')
-async def start_update_model(call: CallbackQuery):
+async def start_update_model(call: CallbackQuery) -> None:
     markup = update_model_keyboard()
     await call.message.edit_text('What you want to update?', reply_markup=markup)
 
 
 @router.callback_query(F.data == 'update_name')
-async def update_name(call: CallbackQuery):
+async def update_name(call: CallbackQuery) -> None:
     markup = await models_show_all(type_handler='update_model')
     await call.message.edit_text('Update name', reply_markup=markup)
 
 
 @router.callback_query(F.data == 'update_description')
-async def update_description(call: CallbackQuery):
+async def update_description(call: CallbackQuery) -> None:
     markup = await models_show_all(type_handler='update_model')
     await call.message.edit_text('Update description', reply_markup=markup)
 
 
 @router.callback_query(F.data == 'update_photo')
-async def update_photo(call: CallbackQuery):
+async def update_photo(call: CallbackQuery) -> None:
     markup = await models_show_all(type_handler='update_model')
     await call.message.edit_text('Update photo', reply_markup=markup)
 
 
 @router.callback_query(F.data == 'update_file_link')
-async def update_file_link(call: CallbackQuery):
+async def update_file_link(call: CallbackQuery) -> None:
     markup = await models_show_all(type_handler='update_model')
     await call.message.edit_text('Update file link', reply_markup=markup)
 
 
 @router.callback_query(ModelInfo.filter(F.type_handler == 'update_model'))
-async def start_update_model_name(call: CallbackQuery, callback_data: ModelInfo, state: FSMContext):
+async def start_update_model_name(call: CallbackQuery, callback_data: ModelInfo, state: FSMContext) -> None:
     unique_id = callback_data.unique_id
     name = callback_data.name
 
@@ -81,7 +81,7 @@ async def start_update_model_name(call: CallbackQuery, callback_data: ModelInfo,
 
 
 @router.message(ModelUpdate.get_name)
-async def update_name_model(msg: Message, state: FSMContext):
+async def update_name_model(msg: Message, state: FSMContext) -> None:
     await state.update_data(get_name=msg.text)
     context_data = await state.get_data()
 
@@ -94,7 +94,7 @@ async def update_name_model(msg: Message, state: FSMContext):
 
 
 @router.message(ModelUpdate.get_description)
-async def update_description_model(msg: Message, state: FSMContext):
+async def update_description_model(msg: Message, state: FSMContext) -> None:
     await state.update_data(get_description=msg.text)
     context_data = await state.get_data()
 
@@ -107,7 +107,7 @@ async def update_description_model(msg: Message, state: FSMContext):
 
 
 @router.message(ModelUpdate.get_photo_id)
-async def update_photo_model(msg: Message, state: FSMContext):
+async def update_photo_model(msg: Message, state: FSMContext) -> None:
     try:
         photo = await bot.get_file(msg.photo[-1].file_id)
         await state.update_data(get_photo_id=photo.file_id)
@@ -124,7 +124,7 @@ async def update_photo_model(msg: Message, state: FSMContext):
 
 
 @router.message(ModelUpdate.get_file_link)
-async def update_file_link_model(msg: Message, state: FSMContext):
+async def update_file_link_model(msg: Message, state: FSMContext) -> None:
     await state.update_data(get_file_link=msg.text)
     context_data = await state.get_data()
 
@@ -137,7 +137,7 @@ async def update_file_link_model(msg: Message, state: FSMContext):
 
 
 @router.callback_query(F.data == f"back_{TYPE_STATE}")
-async def back_state_model_update(call: CallbackQuery, state: FSMContext):
+async def back_state_model_update(call: CallbackQuery, state: FSMContext) -> None:
     name_state = "ModelUpdate"
     current_state = await state.get_state()
 

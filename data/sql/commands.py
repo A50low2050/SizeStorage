@@ -1,11 +1,13 @@
 import sqlite3
 import sqlite3 as sq
 
+DATABASE_NAME = "copy.db"
+
 
 async def create_db():
     global db, cursor
 
-    db = sq.connect("test.db")
+    db = sq.connect(DATABASE_NAME)
     cursor = db.cursor()
 
     cursor.execute(
@@ -32,7 +34,7 @@ async def create_db():
     db.commit()
 
 
-async def add_data_model(name, description, photo_id, link_file):
+async def add_data_model(name: str, description: str, photo_id: str, link_file: str):
     cursor.execute(
         """INSERT INTO models(name, description, photo_id, link_file)
          VALUES(?, ?, ?, ?)""", (
@@ -53,7 +55,7 @@ async def select_all_models():
     return response
 
 
-async def select_model_db(unique_id):
+async def select_model_db(unique_id: int):
     db.row_factory = sqlite3.Row
     cur = db.cursor()
     cur.execute(f""" SELECT * FROM models WHERE id=?""", (unique_id,))
@@ -61,37 +63,37 @@ async def select_model_db(unique_id):
     return response
 
 
-async def delete_model_db(unique_id, name):
+async def delete_model_db(unique_id: int, name: str) -> str:
     cursor.execute(f""" DELETE FROM models WHERE id={unique_id}""")
     db.commit()
     return f'Success delete model with name {name}'
 
 
-async def update_name_model_db(unique_id, new_name):
+async def update_name_model_db(unique_id: int, new_name: str) -> str:
     cursor.execute(f""" UPDATE models SET name='{new_name}' WHERE id={unique_id}""")
     db.commit()
     return f'Success update name model'
 
 
-async def update_description_model_db(unique_id, new_description):
+async def update_description_model_db(unique_id: int, new_description: str) -> str:
     cursor.execute(f""" UPDATE models SET description='{new_description}' WHERE id={unique_id}""")
     db.commit()
     return f'Success update description model'
 
 
-async def update_photo_model_db(unique_id, new_photo_id):
+async def update_photo_model_db(unique_id: int, new_photo_id: str) -> str:
     cursor.execute(f""" UPDATE models SET photo_id='{new_photo_id}' WHERE id={unique_id}""")
     db.commit()
     return f'Success update photo model'
 
 
-async def update_file_link_model_db(unique_id, new_file_link):
+async def update_file_link_model_db(unique_id: int, new_file_link: str) -> str:
     cursor.execute(f""" UPDATE models SET link_file='{new_file_link}' WHERE id={unique_id}""")
     db.commit()
     return f'Success update link file model'
 
 
-async def add_data_object(name, description, photo_id, link_file):
+async def add_data_object(name: str, description: str, photo_id: str, link_file: str):
     cursor.execute(
         """INSERT INTO objects(name, description, photo_id, link_file)
          VALUES(?, ?, ?, ?)""", (

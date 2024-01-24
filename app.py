@@ -8,7 +8,7 @@ bot = Bot(token=config.bots.bot_token, parse_mode="HTML")
 dp = Dispatcher()
 
 
-async def launch_bot():
+async def launch_bot() -> None:
     await set_commands(bot)
     await create_db()
 
