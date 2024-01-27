@@ -11,14 +11,16 @@ from keyboards.inline.models import (
 
 router = Router()
 
+TYPE_HANDLER = 'show_model'
+
 
 @router.callback_query(F.data == 'show_model')
 async def show_models(call: CallbackQuery) -> None:
-    markup = await models_show_all(type_handler='show_model')
+    markup = await models_show_all(type_handler=TYPE_HANDLER)
     await call.message.edit_text('Your models', reply_markup=markup)
 
 
-@router.callback_query(ModelInfo.filter(F.type_handler == 'show_model'))
+@router.callback_query(ModelInfo.filter(F.type_handler == TYPE_HANDLER))
 async def show_model(call: CallbackQuery, callback_data: ModelInfo) -> None:
     unique_id = callback_data.unique_id
     data = await get_model(unique_id)
@@ -32,13 +34,13 @@ async def show_model(call: CallbackQuery, callback_data: ModelInfo) -> None:
     await call.answer()
 
 
-@router.callback_query(F.data == 'back_manage')
+@router.callback_query(F.data == 'back_manage_model')
 async def back_category(call: CallbackQuery) -> None:
-    await call.message.edit_text('Back to manage', reply_markup=model_keyboard_tools())
+    await call.message.edit_text('Back to manage model', reply_markup=model_keyboard_tools())
 
 
 @router.callback_query(F.data == 'back_models')
 async def back_to_models(call: CallbackQuery) -> None:
-    markup = await models_show_all(type_handler='show_model')
+    markup = await models_show_all(type_handler=TYPE_HANDLER)
     await call.message.answer('Back to models', reply_markup=markup)
     await call.answer()

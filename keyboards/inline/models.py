@@ -10,7 +10,6 @@ def model_keyboard_tools():
     keyboard_builder.button(text="Delete 🗑️", callback_data="delete_model")
     keyboard_builder.button(text="Show 🔎", callback_data="show_model")
     keyboard_builder.button(text="⬅", callback_data="back_profile")
-
     keyboard_builder.adjust(4)
     return keyboard_builder.as_markup()
 
@@ -41,7 +40,7 @@ async def models_show_all(type_handler: str):
             name=model['name'],
             unique_id=model['id'],
         ))
-    keyboard_builder.button(text='⬅', callback_data='back_manage')
+    keyboard_builder.button(text='⬅', callback_data='back_manage_model')
     keyboard_builder.adjust(1)
     return keyboard_builder.as_markup()
 
