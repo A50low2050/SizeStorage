@@ -1,6 +1,6 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from utils.callbackdata import ModelInfo
-from data.sql.commands import select_all_models, select_model_db
+from data.sql.models.commands import select_all_models, select_model_db
 
 
 def model_keyboard_tools():

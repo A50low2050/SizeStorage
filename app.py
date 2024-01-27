@@ -1,7 +1,8 @@
 import asyncio
 from aiogram import Bot, Dispatcher
 from middlewares.settings import config
-from data.sql.commands import create_db
+from data.sql.models.commands import create_db_model
+from data.sql.objects.commands import create_db_object
 from utils.commands import set_commands
 
 bot = Bot(token=config.bots.bot_token, parse_mode="HTML")
@@ -10,7 +11,8 @@ dp = Dispatcher()
 
 async def launch_bot() -> None:
     await set_commands(bot)
-    await create_db()
+    await create_db_model()
+    await create_db_object()
 
     from handlers.admin import admin_start
     from handlers.admin import profile

@@ -11,7 +11,7 @@ from keyboards.inline.models import (
 )
 from services.states import ModelUpdate
 from utils.callbackdata import ModelInfo
-from data.sql.commands import (
+from data.sql.models.commands import (
     update_name_model_db,
     update_description_model_db,
     update_photo_model_db,

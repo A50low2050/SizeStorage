@@ -1,5 +1,5 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from data.sql.commands import select_all_objects, select_object_db
+from data.sql.objects.commands import select_all_objects, select_object_db
 from utils.callbackdata import ObjectInfo
 
 

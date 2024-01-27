@@ -11,7 +11,7 @@ from keyboards.inline.objects import (
 )
 from services.states import ObjectUpdate
 from utils.callbackdata import ObjectInfo
-from data.sql.commands import (
+from data.sql.objects.commands import (
     update_name_object_db,
     update_description_object_db,
     update_photo_object_db,

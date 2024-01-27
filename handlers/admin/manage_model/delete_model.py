@@ -1,6 +1,6 @@
 from aiogram import Router, F
 from aiogram.types import CallbackQuery
-from data.sql.commands import delete_model_db
+from data.sql.models.commands import delete_model_db
 from keyboards.inline.models import models_show_all, model_keyboard_tools
 from utils.callbackdata import ModelInfo
 
