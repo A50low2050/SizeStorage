@@ -24,6 +24,7 @@ async def launch_bot() -> None:
         create_object,
         show_object,
         delete_object,
+        update_object,
     )
 
     from handlers.users import user_start
@@ -41,6 +42,7 @@ async def launch_bot() -> None:
         create_object.router,
         show_object.router,
         delete_object.router,
+        update_object.router,
 
     )
 

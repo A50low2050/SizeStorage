@@ -42,11 +42,21 @@ async def get_object(unique_id: int):
     return object
 
 
-def cancel_state_object():
+def cancel_state_object(type_state: str):
     keyboard_builder = InlineKeyboardBuilder()
     keyboard_builder.button(text="Cancel", callback_data="cancel_state_object")
-    keyboard_builder.button(text="Back", callback_data="back_state_object")
+    keyboard_builder.button(text="Back", callback_data=f"back_{type_state}")
     keyboard_builder.adjust(2)
 
     return keyboard_builder.as_markup()
 
+
+def update_object_keyboard():
+    keyboard_builder = InlineKeyboardBuilder()
+    keyboard_builder.button(text='update name ✏', callback_data='update_name_obj')
+    keyboard_builder.button(text='update description 📚', callback_data='update_description_obj')
+    keyboard_builder.button(text='update photo 📸', callback_data='update_photo_obj')
+    keyboard_builder.button(text='update file link 📄', callback_data='update_file_link_obj')
+    keyboard_builder.button(text='⬅', callback_data='back_manage_object')
+    keyboard_builder.adjust(2)
+    return keyboard_builder.as_markup()
