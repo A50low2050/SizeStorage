@@ -120,3 +120,9 @@ async def select_object_db(unique_id: int):
     cur.execute(f""" SELECT * FROM objects WHERE id=?""", (unique_id,))
     response = cur.fetchone()
     return response
+
+
+async def delete_object_db(unique_id: int, name: str) -> str:
+    cursor.execute(f""" DELETE FROM objects WHERE id={unique_id}""")
+    db.commit()
+    return f'Success delete object with name {name}'
