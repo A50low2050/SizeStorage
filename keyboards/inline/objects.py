@@ -5,11 +5,11 @@ from utils.callbackdata import ObjectInfo
 
 def objects_keyboard_tools():
     keyboard_builder = InlineKeyboardBuilder()
-    keyboard_builder.button(text="Add", callback_data="add_object")
-    keyboard_builder.button(text="Update", callback_data="update_object")
-    keyboard_builder.button(text="Delete", callback_data="delete_object")
-    keyboard_builder.button(text="Show", callback_data="show_object")
-    keyboard_builder.button(text="Back", callback_data="back_profile")
+    keyboard_builder.button(text="Add ✍", callback_data="add_object")
+    keyboard_builder.button(text="Update 🔄", callback_data="update_object")
+    keyboard_builder.button(text="Delete 🗑️", callback_data="delete_object")
+    keyboard_builder.button(text="Show 🔎", callback_data="show_object")
+    keyboard_builder.button(text="⬅", callback_data="back_profile")
 
     keyboard_builder.adjust(4)
     return keyboard_builder.as_markup()
@@ -44,8 +44,8 @@ async def get_object(unique_id: int):
 
 def cancel_state_object(type_state: str):
     keyboard_builder = InlineKeyboardBuilder()
-    keyboard_builder.button(text="Cancel", callback_data="cancel_state_object")
-    keyboard_builder.button(text="Back", callback_data=f"back_{type_state}")
+    keyboard_builder.button(text="❌", callback_data="cancel_state_object")
+    keyboard_builder.button(text="⬅", callback_data=f"back_{type_state}")
     keyboard_builder.adjust(2)
 
     return keyboard_builder.as_markup()
