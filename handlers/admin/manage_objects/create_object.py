@@ -18,6 +18,7 @@ async def start_object(call: CallbackQuery, state: FSMContext) -> None:
                                  )
 
     await state.set_state(ObjectAdd.get_name)
+    await call.answer()
 
 
 @router.message(ObjectAdd.get_name)

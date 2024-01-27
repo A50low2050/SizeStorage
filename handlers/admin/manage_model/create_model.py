@@ -18,6 +18,7 @@ async def model_add(call: CallbackQuery, state: FSMContext) -> None:
                                  reply_markup=cancel_state_model(TYPE_STATE))
 
     await state.set_state(ModelAdd.get_name)
+    await call.answer()
 
 
 @router.message(ModelAdd.get_name)
