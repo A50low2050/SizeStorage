@@ -1,4 +1,6 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
+from data.sql.commands import select_all_objects, select_object_db
+from utils.callbackdata import ObjectInfo
 
 
 def objects_keyboard_tools():
@@ -13,6 +15,33 @@ def objects_keyboard_tools():
     return keyboard_builder.as_markup()
 
 
+async def back_to_objects_keyboard():
+    keyboard_builder = InlineKeyboardBuilder()
+    keyboard_builder.button(text='⬅', callback_data='back_objects')
+    keyboard_builder.adjust(1)
+    return keyboard_builder.as_markup()
+
+
+async def objects_show_all(type_handler: str):
+    keyboard_builder = InlineKeyboardBuilder()
+    objects = await select_all_objects()
+
+    for object in objects:
+        keyboard_builder.button(text=object['name'], callback_data=ObjectInfo(
+            type_handler=type_handler,
+            name=object['name'],
+            unique_id=object['id'],
+        ))
+    keyboard_builder.button(text='⬅', callback_data='back_manage_object')
+    keyboard_builder.adjust(1)
+    return keyboard_builder.as_markup()
+
+
+async def get_object(unique_id: int):
+    object = await select_object_db(unique_id)
+    return object
+
+
 def cancel_state_object():
     keyboard_builder = InlineKeyboardBuilder()
     keyboard_builder.button(text="Cancel", callback_data="cancel_state_object")
@@ -20,3 +49,4 @@ def cancel_state_object():
     keyboard_builder.adjust(2)
 
     return keyboard_builder.as_markup()
+

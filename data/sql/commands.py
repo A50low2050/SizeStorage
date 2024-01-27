@@ -104,3 +104,19 @@ async def add_data_object(name: str, description: str, photo_id: str, link_file:
         )
     )
     db.commit()
+
+
+async def select_all_objects():
+    db.row_factory = sqlite3.Row
+    cur = db.cursor()
+    cur.execute(""" SELECT * FROM objects """)
+    response = cur.fetchall()
+    return response
+
+
+async def select_object_db(unique_id: int):
+    db.row_factory = sqlite3.Row
+    cur = db.cursor()
+    cur.execute(f""" SELECT * FROM objects WHERE id=?""", (unique_id,))
+    response = cur.fetchone()
+    return response
