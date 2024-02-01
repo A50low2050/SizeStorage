@@ -3,7 +3,15 @@ name: Automated tests
 on:
   workflow_dispatch:
     branches: [main, develop]
-
+    
+env:
+  BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+  ADMIN_ID: ${{ secrets.ADMIN_ID}}
+  PSG_USER: ${{ secrets.PSG_USER }}
+  PSG_PASSWORD: ${{ secrets.PSG_PASSWORD }}
+  HOST: ${{ secrets.HOST }}
+  DATABASE: ${{ secrets.DATABASE }}
+  
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -17,12 +25,5 @@ jobs:
           python-version: "3.10"
       - name: Install dependencies
         run: pip install -r requirements.txt
-        env:
-          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
-          ADMIN_ID: ${{ secrets.ADMIN_ID}}
-          PSG_USER: ${{ secrets.PSG_USER }}
-          PSG_PASSWORD: ${{ secrets.PSG_PASSWORD }}
-          HOST: ${{ secrets.HOST }}
-          DATABASE: ${{ secrets.DATABASE }}
       - name: Run tests
         run: pytest
