@@ -1,6 +1,5 @@
 from environs import Env
 from dataclasses import dataclass
-from data.sql.models.commands import count_models
 
 
 @dataclass
