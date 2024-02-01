@@ -1,5 +1,6 @@
 from environs import Env
 from dataclasses import dataclass
+from data.sql.models.commands import count_models
 
 
 @dataclass
@@ -41,3 +42,7 @@ database = config.bots.database
 host = config.bots.host
 
 POSTGRES_URL = f'postgresql://{user}:{psw}@{host}/{database}'
+
+
+DEFAULT_LIMIT = 2
+DEFAULT_OFFSET = 1

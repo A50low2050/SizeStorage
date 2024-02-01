@@ -16,3 +16,9 @@ class ObjectInfo(CallbackData, prefix='object'):
     type_handler: str
     unique_id: int
     name: str
+
+
+class Paginator(CallbackData, prefix='paginator'):
+    action: str
+    limit: int
+    offset: int

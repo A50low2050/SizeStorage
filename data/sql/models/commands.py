@@ -20,6 +20,14 @@ async def create_db_model():
     )
 
 
+async def count_models():
+    cursor.execute(
+        """ SELECT COUNT(*) FROM models """
+    )
+    result = cursor.fetchone()
+    return result[0]
+
+
 async def add_data_model(name: str, description: str, photo_id: str, link_file: str):
     cursor.execute(
         """INSERT INTO models(name, description, photo_id, link_file)
@@ -33,10 +41,10 @@ async def add_data_model(name: str, description: str, photo_id: str, link_file: 
     db.commit()
 
 
-async def select_all_models():
+async def select_all_models(limit: int = 0, offset: int = 0):
     db.row_factory = sq.Row
     cur = db.cursor()
-    cur.execute(""" SELECT * FROM models """)
+    cur.execute(f""" SELECT * FROM models LIMIT {limit} OFFSET {offset}""")
     response = cur.fetchall()
     return response
 
