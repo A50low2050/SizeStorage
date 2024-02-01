@@ -10,7 +10,7 @@ on:
 #        type: choice
 #        options:
 #          - first_test
-#    branches: [main, develop]
+    branches: [main, develop]
 
 jobs:
   test:
