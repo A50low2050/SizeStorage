@@ -25,4 +25,4 @@ jobs:
           HOST: ${{ secrets.HOST }}
           DATABASE: ${{ secrets.DATABASE }}
       - name: Run tests
-        run: pytest -W ignore::DeprecationWarning
+        run: pytest
