@@ -2,17 +2,7 @@ name: Automated tests
 
 on:
   workflow_dispatch:
-    inputs:
-      deployment_target:
-        description: Choose target
-        required: true
-        default: first_test
-        type: choice
-        options:
-          - first_test
-    branches:
-      - main
-      - develop
+    branches: [main, develop]
 
 jobs:
   test:
@@ -27,7 +17,6 @@ jobs:
           python-version: "3.10"
       - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: test_welcome_admin
         env:
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
           ADMIN_ID: ${{ secrets.ADMIN_ID}}
@@ -35,5 +24,5 @@ jobs:
           PSG_PASSWORD: ${{ secrets.PSG_PASSWORD }}
           HOST: ${{ secrets.HOST }}
           DATABASE: ${{ secrets.DATABASE }}
-        if: "github.event.inputs.deployment_target == 'first_test'"
-        run: pytest tests/test_handlers/test_welcome_admin.py::test_welcome_admin
+      - name: Run tests
+        run: pytest -W ignore::DeprecationWarning

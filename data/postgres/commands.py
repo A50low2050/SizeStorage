@@ -24,35 +24,35 @@ async def select_all_models():
     return models
 
 
-async def select_model(model_id):
+async def select_model(model_id: int):
     model = await Models.query.where(Models.id == model_id).gino.first()
     return model
 
 
-async def update_model_name(model_id, new_name):
+async def update_model_name(model_id: int, new_name: str) -> str:
     model = await select_model(model_id)
     await model.update(name=new_name).apply()
     return f'Update name model is success'
 
 
-async def update_model_description(model_id, new_description):
+async def update_model_description(model_id: int, new_description: str) -> str:
     model = await select_model(model_id)
     await model.update(description=new_description).apply()
     return f'Update description model is success'
 
 
-async def update_model_photo_id(model_id, photo_id):
+async def update_model_photo_id(model_id: int, photo_id: str) -> str:
     model = await select_model(model_id)
     await model.update(photo_id=photo_id).apply()
     return f'Update photo_id model is success'
 
 
-async def update_model_link(model_id, new_link):
+async def update_model_link(model_id: int, new_link: str) -> str:
     model = await select_model(model_id)
     await model.update(link_file=new_link).apply()
     return f'Update link file model is success'
 
 
-async def delete_model(model_id):
+async def delete_model(model_id: int):
     model = await Models.delete.where(Models.id == model_id).gino.status()
     return model

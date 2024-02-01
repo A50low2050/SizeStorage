@@ -3,7 +3,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 from app import bot
 from services.states import ModelAdd
-from data.sql.commands import add_data_model
+from data.sql.models.commands import add_data_model
 from keyboards.inline.models import model_keyboard_tools, cancel_state_model
 
 router = Router()
@@ -12,16 +12,17 @@ TYPE_STATE = 'ModelAdd'
 
 
 @router.callback_query(F.data == "add_model")
-async def model_add(call: CallbackQuery, state: FSMContext):
+async def model_add(call: CallbackQuery, state: FSMContext) -> None:
     await call.message.edit_text("Start create a new model.\n\n"
                                  "Come up with a new model name",
                                  reply_markup=cancel_state_model(TYPE_STATE))
 
     await state.set_state(ModelAdd.get_name)
+    await call.answer()
 
 
 @router.message(ModelAdd.get_name)
-async def get_name_model(msg: Message, state: FSMContext):
+async def get_name_model(msg: Message, state: FSMContext) -> None:
     await msg.answer(f"Model name is {msg.text}\n\n"
                      "Now add description for model",
                      reply_markup=cancel_state_model(TYPE_STATE))
@@ -30,7 +31,7 @@ async def get_name_model(msg: Message, state: FSMContext):
 
 
 @router.message(ModelAdd.get_description)
-async def get_description_model(msg: Message, state: FSMContext):
+async def get_description_model(msg: Message, state: FSMContext) -> None:
     await msg.answer(f"Description of model is {msg.text}\n\n"
                      "Now add photo for model",
                      reply_markup=cancel_state_model(TYPE_STATE))
@@ -39,7 +40,7 @@ async def get_description_model(msg: Message, state: FSMContext):
 
 
 @router.message(ModelAdd.get_photo)
-async def get_photo_model(msg: Message, state: FSMContext):
+async def get_photo_model(msg: Message, state: FSMContext) -> None:
     try:
         photo = await bot.get_file(msg.photo[-1].file_id)
         await msg.answer(f"Photo is a success save.\n\n"
@@ -52,7 +53,7 @@ async def get_photo_model(msg: Message, state: FSMContext):
 
 
 @router.message(ModelAdd.get_link_file)
-async def get_link_file_model(msg: Message, state: FSMContext):
+async def get_link_file_model(msg: Message, state: FSMContext) -> None:
     await state.update_data(get_link_file=msg.text)
     context_data = await state.get_data()
 
@@ -74,7 +75,7 @@ async def get_link_file_model(msg: Message, state: FSMContext):
 
 
 @router.callback_query(F.data == "cancel_state_model")
-async def cancel_state(call: CallbackQuery, state: FSMContext):
+async def cancel_state(call: CallbackQuery, state: FSMContext) -> None:
     await state.clear()
     await call.message.edit_text("Cancel operation.\n"
                                  "You back to manage model",
@@ -82,9 +83,8 @@ async def cancel_state(call: CallbackQuery, state: FSMContext):
 
 
 @router.callback_query(F.data == f"back_{TYPE_STATE}")
-async def back_state_model(call: CallbackQuery, state: FSMContext):
+async def back_state_model(call: CallbackQuery, state: FSMContext) -> None:
     name_state = "ModelAdd"
-    print(name_state)
     current_state = await state.get_state()
     if current_state == f"{name_state}:get_name":
         await state.set_data({})

@@ -1,6 +1,7 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from utils.callbackdata import ModelInfo
-from data.sql.commands import select_all_models, select_model_db
+from utils.callbackdata import ModelInfo, Paginator
+from data.sql.models.commands import select_all_models, select_model_db
+from middlewares.settings import DEFAULT_LIMIT, DEFAULT_OFFSET
 
 
 def model_keyboard_tools():
@@ -10,7 +11,6 @@ def model_keyboard_tools():
     keyboard_builder.button(text="Delete 🗑️", callback_data="delete_model")
     keyboard_builder.button(text="Show 🔎", callback_data="show_model")
     keyboard_builder.button(text="⬅", callback_data="back_profile")
-
     keyboard_builder.adjust(4)
     return keyboard_builder.as_markup()
 
@@ -22,7 +22,7 @@ async def back_to_models_keyboard():
     return keyboard_builder.as_markup()
 
 
-def cancel_state_model(type_state):
+def cancel_state_model(type_state: str):
     keyboard_builder = InlineKeyboardBuilder()
     keyboard_builder.button(text="❌", callback_data="cancel_state_model")
     keyboard_builder.button(text="⬅", callback_data=f"back_{type_state}")
@@ -31,9 +31,9 @@ def cancel_state_model(type_state):
     return keyboard_builder.as_markup()
 
 
-async def models_show_all(type_handler):
+async def models_show_all(type_handler: str, limit: int = DEFAULT_LIMIT, offset: int = DEFAULT_OFFSET):
     keyboard_builder = InlineKeyboardBuilder()
-    models = await select_all_models()
+    models = await select_all_models(limit=limit, offset=offset)
 
     for model in models:
         keyboard_builder.button(text=model['name'], callback_data=ModelInfo(
@@ -41,12 +41,18 @@ async def models_show_all(type_handler):
             name=model['name'],
             unique_id=model['id'],
         ))
-    keyboard_builder.button(text='⬅', callback_data='back_manage')
-    keyboard_builder.adjust(1)
+
+    keyboard_builder.button(text='⬅', callback_data=Paginator(action='prev', limit=limit, offset=offset))
+    keyboard_builder.button(text='➡', callback_data=Paginator(action='next', limit=limit, offset=offset))
+
+    keyboard_builder.button(text='↩', callback_data='back_manage_model')
+
+    keyboard_builder.adjust(1, 1, 2, 2, 1)
+
     return keyboard_builder.as_markup()
 
 
-async def get_model(unique_id):
+async def get_model(unique_id: int):
     model = await select_model_db(unique_id)
     return model
 

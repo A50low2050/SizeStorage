@@ -8,13 +8,13 @@ router = Router()
 
 
 @router.callback_query(F.data == "admin_start")
-async def admin_profile(call: CallbackQuery):
+async def admin_profile(call: CallbackQuery) -> None:
     await call.message.edit_text("Choose category, please", reply_markup=admin_panel_keyboard())
     await call.answer()
 
 
 @router.callback_query(F.data == "manage_model")
-async def models_tools(call: CallbackQuery):
+async def models_tools(call: CallbackQuery) -> None:
     await call.message.edit_text("What do you doing", reply_markup=model_keyboard_tools())
     await call.answer()
 

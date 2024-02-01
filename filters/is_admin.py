@@ -5,6 +5,6 @@ from aiogram.types import Message
 
 class AdminFilter(BaseFilter):
 
-    async def __call__(self, message: Message):
+    async def __call__(self, message: Message) -> bool:
         if message.from_user.id == int(config.bots.admin_id):
             return True

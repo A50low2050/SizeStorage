@@ -8,6 +8,6 @@ router = Router()
 
 
 @router.message(CommandStart(), AdminFilter())
-async def welcome_to_admin(msg: Message):
+async def welcome_to_admin(msg: Message) -> None:
     await msg.answer(f'Hello {msg.from_user.first_name} ✌\n'
                      f'Welcome to admin', reply_markup=admin_keyboard())
