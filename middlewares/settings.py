@@ -44,4 +44,4 @@ POSTGRES_URL = f'postgresql://{user}:{psw}@{host}/{database}'
 
 
 DEFAULT_LIMIT = 2
-DEFAULT_OFFSET = 1
+DEFAULT_OFFSET = 0

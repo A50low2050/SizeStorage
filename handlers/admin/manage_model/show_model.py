@@ -22,35 +22,49 @@ async def show_models(call: CallbackQuery) -> None:
     await call.message.edit_text('Your models', reply_markup=markup)
 
 
-@router.callback_query(Paginator.filter(F.action == 'next'))
+@router.callback_query(Paginator.filter(F.action.in_(['next', 'prev']) and F.type_handler == TYPE_HANDLER))
 async def next_models(call: CallbackQuery, callback_data: Paginator) -> None:
     limit = callback_data.limit
     offset = callback_data.offset
+    counter = callback_data.counter
+    page = callback_data.page
 
-    max_limit = await count_models()
+    if callback_data.action == 'next':
+        max_limit = await count_models()
+        if counter < max_limit:
+            counter += 2
+            offset += 2
+            page += 1
 
-    if limit < max_limit:
-        limit += 2
-        offset += 1
+            markup = await models_show_all(
+                type_handler=TYPE_HANDLER,
+                limit=limit,
+                offset=offset,
+                counter=counter,
+                page=page,
+            )
+            await call.message.edit_text('Your models', reply_markup=markup)
+            await call.answer()
+        else:
+            await call.answer()
+    if callback_data.action == 'prev':
+        min_limit = DEFAULT_LIMIT
+        if counter > min_limit:
+            counter -= 2
+            offset -= 2
+            page -= 1
 
-        markup = await models_show_all(type_handler=TYPE_HANDLER, limit=limit, offset=offset)
-        await call.message.edit_text('Your models', reply_markup=markup)
-    await call.answer()
-
-
-@router.callback_query(Paginator.filter(F.action == 'prev'))
-async def prev_models(call: CallbackQuery, callback_data: Paginator) -> None:
-    limit = callback_data.limit
-    offset = callback_data.offset
-
-    min_limit = DEFAULT_LIMIT
-    if limit > min_limit:
-        limit -= 2
-        offset -= 1
-
-        markup = await models_show_all(type_handler=TYPE_HANDLER, limit=limit, offset=offset)
-        await call.message.edit_text('Your models', reply_markup=markup)
-    await call.answer()
+            markup = await models_show_all(
+                type_handler=TYPE_HANDLER,
+                limit=limit,
+                offset=offset,
+                counter=counter,
+                page=page,
+            )
+            await call.message.edit_text('Your models', reply_markup=markup)
+            await call.answer()
+        else:
+            await call.answer()
 
 
 @router.callback_query(ModelInfo.filter(F.type_handler == TYPE_HANDLER))
