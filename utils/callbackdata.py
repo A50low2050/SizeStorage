@@ -22,3 +22,6 @@ class Paginator(CallbackData, prefix='paginator'):
     action: str
     limit: int
     offset: int
+    counter: int
+    page: int
+    type_handler: str

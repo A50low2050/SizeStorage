@@ -9,17 +9,19 @@ from keyboards.inline.models import (
     model_keyboard_tools,
     cancel_state_model,
 )
+from middlewares.settings import DEFAULT_LIMIT
 from services.states import ModelUpdate
-from utils.callbackdata import ModelInfo
+from utils.callbackdata import ModelInfo, Paginator
 from data.sql.models.commands import (
     update_name_model_db,
     update_description_model_db,
     update_photo_model_db,
-    update_file_link_model_db,
+    update_file_link_model_db, count_models,
 )
 
 router = Router()
 
+TYPE_HANDLER = 'update_model'
 TYPE_STATE = 'ModelUpdateState'
 
 
@@ -56,6 +58,52 @@ async def update_file_link(call: CallbackQuery) -> None:
     markup = await models_show_all(type_handler='update_model')
     await call.message.edit_text('Update file link', reply_markup=markup)
     await call.answer()
+
+
+@router.callback_query(Paginator.filter(F.action.in_(['next', 'prev']) and F.type_handler == TYPE_HANDLER))
+async def next_models(call: CallbackQuery, callback_data: Paginator) -> None:
+    limit = callback_data.limit
+    offset = callback_data.offset
+    counter = callback_data.counter
+    page = callback_data.page
+    msg = call.message.text
+
+    if callback_data.action == 'next':
+        max_limit = await count_models()
+        if counter < max_limit:
+            counter += 2
+            offset += 2
+            page += 1
+
+            markup = await models_show_all(
+                type_handler=TYPE_HANDLER,
+                limit=limit,
+                offset=offset,
+                counter=counter,
+                page=page,
+            )
+            await call.message.edit_text(msg, reply_markup=markup)
+            await call.answer()
+        else:
+            await call.answer()
+    if callback_data.action == 'prev':
+        min_limit = DEFAULT_LIMIT
+        if counter > min_limit:
+            counter -= 2
+            offset -= 2
+            page -= 1
+
+            markup = await models_show_all(
+                type_handler=TYPE_HANDLER,
+                limit=limit,
+                offset=offset,
+                counter=counter,
+                page=page,
+            )
+            await call.message.edit_text(msg, reply_markup=markup)
+            await call.answer()
+        else:
+            await call.answer()
 
 
 @router.callback_query(ModelInfo.filter(F.type_handler == 'update_model'))
