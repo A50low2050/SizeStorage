@@ -2,16 +2,16 @@ from typing import List
 from middlewares.settings import DEFAULT_LIMIT
 
 
-def limiter_models(models: List) -> List:
-    current_model = []
+def transform_keyboard(transform_list: List) -> List:
+    current_list = []
     count = 0
 
-    for item in range(len(models)):
+    for item in range(len(transform_list)):
         if count < DEFAULT_LIMIT:
-            current_model.append(item)
-            current_model[item] = 1
+            current_list.append(item)
+            current_list[item] = 1
             count += 1
-    return current_model
+    return current_list
 
 
 def pages_limiter(number: int, count: int = 2):

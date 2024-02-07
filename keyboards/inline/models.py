@@ -1,6 +1,6 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from utils.callbackdata import ModelInfo, Paginator
-from utils.limiters import limiter_models, pages_limiter
+from utils.limiters import transform_keyboard, pages_limiter
 from data.sql.models.commands import select_all_models, select_model_db, count_models
 from middlewares.settings import DEFAULT_LIMIT, DEFAULT_OFFSET
 
@@ -41,7 +41,7 @@ async def models_show_all(
 ):
     keyboard_builder = InlineKeyboardBuilder()
     models = await select_all_models(limit=limit, offset=offset)
-    current_models = limiter_models(models)
+    current_models = transform_keyboard(models)
 
     pages = await count_models()
     pages = pages_limiter(pages)
