@@ -1,6 +1,8 @@
 from aiogram.utils.keyboard import InlineKeyboardBuilder
-from data.sql.objects.commands import select_all_objects, select_object_db
-from utils.callbackdata import ObjectInfo
+from data.sql.objects.commands import select_all_objects, select_object_db, count_objects
+from middlewares.settings import DEFAULT_LIMIT, DEFAULT_OFFSET
+from utils.callbackdata import ObjectInfo, Paginator
+from utils.limiters import transform_keyboard, pages_limiter
 
 
 def objects_keyboard_tools():
@@ -22,9 +24,20 @@ async def back_to_objects_keyboard():
     return keyboard_builder.as_markup()
 
 
-async def objects_show_all(type_handler: str):
+async def objects_show_all(
+        type_handler: str,
+        limit: int = DEFAULT_LIMIT,
+        offset: int = DEFAULT_OFFSET,
+        counter: int = 2,
+        page: int = 1,
+
+):
     keyboard_builder = InlineKeyboardBuilder()
-    objects = await select_all_objects()
+    objects = await select_all_objects(limit=limit, offset=offset)
+    #
+    current_objects = transform_keyboard(objects)
+    pages = await count_objects()
+    pages = pages_limiter(pages)
 
     for object in objects:
         keyboard_builder.button(text=object['name'], callback_data=ObjectInfo(
@@ -32,8 +45,28 @@ async def objects_show_all(type_handler: str):
             name=object['name'],
             unique_id=object['id'],
         ))
+
+    keyboard_builder.button(text='⬅', callback_data=Paginator(
+        action='prev',
+        limit=limit,
+        offset=offset,
+        counter=counter,
+        page=page,
+        type_handler=type_handler,
+    )
+                            )
+    keyboard_builder.button(text=f'{page}/{pages}', callback_data='show_pages')
+    keyboard_builder.button(text='➡', callback_data=Paginator(
+        action='next',
+        limit=limit,
+        offset=offset,
+        counter=counter,
+        page=page,
+        type_handler=type_handler,
+    ))
+
     keyboard_builder.button(text='⬅', callback_data='back_manage_object')
-    keyboard_builder.adjust(1)
+    keyboard_builder.adjust(*current_objects, 3, 1)
     return keyboard_builder.as_markup()
 
 

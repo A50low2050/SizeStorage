@@ -22,6 +22,14 @@ async def create_db_object():
     db.commit()
 
 
+async def count_objects():
+    cursor.execute(
+        """ SELECT COUNT(*) FROM objects """
+    )
+    result = cursor.fetchone()
+    return result[0]
+
+
 async def add_data_object(name: str, description: str, photo_id: str, link_file: str):
     cursor.execute(
         """INSERT INTO objects(name, description, photo_id, link_file)
@@ -35,10 +43,10 @@ async def add_data_object(name: str, description: str, photo_id: str, link_file:
     db.commit()
 
 
-async def select_all_objects():
+async def select_all_objects(limit: int = 0, offset: int = 0):
     db.row_factory = sq.Row
     cur = db.cursor()
-    cur.execute(""" SELECT * FROM objects """)
+    cur.execute(f""" SELECT * FROM objects LIMIT {limit} OFFSET {offset}""")
     response = cur.fetchall()
     return response
 
