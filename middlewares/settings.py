@@ -9,6 +9,7 @@ class Bots:
     psg_user: str
     psg_password: str
     host: str
+    port: int
     database: str
 
 
@@ -28,6 +29,7 @@ def get_settings(path: str):
             psg_user=env.str("PSG_USER"),
             psg_password=env.str("PSG_PASSWORD"),
             host=env.str("HOST"),
+            port=env.int("PORT"),
             database=env.str("DATABASE")
         )
     )
@@ -39,8 +41,9 @@ user = config.bots.psg_user
 psw = config.bots.psg_password
 database = config.bots.database
 host = config.bots.host
+port = config.bots.port
 
-POSTGRES_URL = f'postgresql://{user}:{psw}@{host}/{database}'
+POSTGRES_URL = f'postgresql://{user}:{psw}@{host}:{port}/{database}'
 
 
 DEFAULT_LIMIT = 2

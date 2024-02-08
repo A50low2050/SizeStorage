@@ -10,6 +10,7 @@ env:
   PSG_USER: ${{ secrets.PSG_USER }}
   PSG_PASSWORD: ${{ secrets.PSG_PASSWORD }}
   HOST: ${{ secrets.HOST }}
+  PORT: ${{ secrets.PORT }}
   DATABASE: ${{ secrets.DATABASE }}
   
 jobs:
