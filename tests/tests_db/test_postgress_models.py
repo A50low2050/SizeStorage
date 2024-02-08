@@ -1,6 +1,4 @@
 import pytest
-import asyncio
-
 from gino import Gino
 from sqlalchemy import Column, Integer, TEXT, String
 from middlewares import settings
@@ -18,14 +16,14 @@ class ModelsTest(db_test.Model):
     link_file = Column(TEXT())
 
 
-async def add_models_t(name: str, description: str, photo_id: str, link_file: str):
+async def add_models(name: str, description: str, photo_id: str, link_file: str):
     model = await ModelsTest.create(
         name=name,
         description=description,
         photo_id=photo_id,
         link_file=link_file
     )
-    return f'Create test {model.name} is success'
+    return f'Create model {model.name} is success'
 
 
 async def select_model(model_id: int):
@@ -63,30 +61,25 @@ async def update_model_link(model_id: int, new_link: str) -> str:
 
 
 # Init db
-async def start_test_db():
+async def start_test_model_db():
     await db_test.set_bind(settings.POSTGRES_URL)
     await db_test.gino.create_all()
 
-    model = await add_models_t(
-        name='model',
-        description='test model',
-        photo_id='hfuihdu4d3d',
-        link_file='www.test.com'
-    )
+    model = await add_models(name='model', description='test model', photo_id='hfuihdu4d3d', link_file='www.test.com')
     return model
 
 
 # Start Test
 @pytest.mark.asyncio
-async def test_conn_and_create_db():
-    model = await start_test_db()
-    assert model == f'Create test model is success'
+async def test_create_model_db():
+    model = await start_test_model_db()
+    assert model == f'Create model model is success'
     await ModelsTest.gino.drop()
 
 
 @pytest.mark.asyncio
 async def test_select_model_db():
-    await start_test_db()
+    await start_test_model_db()
     get_model = await select_model(model_id=1)
     assert get_model is not None
 
@@ -95,7 +88,7 @@ async def test_select_model_db():
 
 @pytest.mark.asyncio
 async def test_delete_model_db():
-    await start_test_db()
+    await start_test_model_db()
     model = await delete_model(model_id=1)
     assert model == ('DELETE 1', [])
     await ModelsTest.gino.drop()
@@ -103,7 +96,7 @@ async def test_delete_model_db():
 
 @pytest.mark.asyncio
 async def test_update_model_db():
-    await start_test_db()
+    await start_test_model_db()
     update_name = await update_model_name(model_id=1, new_name='update_model')
     update_description = await update_model_description(model_id=1, new_description='test')
     update_photo_id = await update_model_photo_id(model_id=1, photo_id='AWAD56G')
@@ -113,4 +106,3 @@ async def test_update_model_db():
     assert update_photo_id == 'Update photo_id model is success'
     assert update_link_file == 'Update link file model is success'
     await ModelsTest.gino.drop()
-
